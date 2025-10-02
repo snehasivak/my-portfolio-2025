@@ -7,7 +7,7 @@ import Experience from "./components/homepage/experience";
 import HeroSection from "./components/homepage/hero-section";
 import Projects from "./components/homepage/projects";
 import Skills from "./components/homepage/skills";
-import ClientOnly from "./components/client-only"; // Import the new component
+import ClientOnly from "./components/client-only";
 
 export default function HomePage({ blogs }) {
   return (
@@ -15,9 +15,9 @@ export default function HomePage({ blogs }) {
       <ClientOnly>
         <HeroSection />
         <Skills />
+        <AboutSection /> 
       </ClientOnly>
 
-      <AboutSection />
       <Experience />
       <Projects />
       <Education />
