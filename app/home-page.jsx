@@ -11,18 +11,18 @@ import ClientOnly from "./components/client-only";
 
 export default function HomePage({ blogs }) {
   return (
-    <div suppressHydrationWarning>
-      <ClientOnly>
+    // We are now wrapping EVERYTHING
+    <ClientOnly>
+      <div suppressHydrationWarning>
         <HeroSection />
+        <AboutSection />
+        <Experience />
         <Skills />
-        <AboutSection /> 
-      </ClientOnly>
-
-      <Experience />
-      <Projects />
-      <Education />
-      {/* <Blog blogs={blogs} /> */}
-      <ContactSection />
-    </div>
+        <Projects />
+        <Education />
+        {/* <Blog blogs={blogs} /> */}
+        <ContactSection />
+      </div>
+    </ClientOnly>
   );
 }
