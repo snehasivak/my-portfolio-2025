@@ -4,13 +4,13 @@ import { useEffect } from "react";
 
 const GlowCard = ({ children, identifier }) => {
   useEffect(() => {
-    // Safety check for server-side rendering
+    // Ensure this only runs on the client
     if (typeof document === "undefined") return;
 
     const CONTAINER = document.querySelector(`.glow-container-${identifier}`);
     const CARDS = document.querySelectorAll(`.glow-card-${identifier}`);
 
-    if (!CONTAINER || CARDS.length === 0) return;
+    if (!CONTAINER || !CARDS) return;
 
     const CONFIG = {
       proximity: 40,
@@ -52,7 +52,10 @@ const GlowCard = ({ children, identifier }) => {
       }
     };
 
+    document.body.addEventListener("pointermove", UPDATE);
+
     const RESTYLE = () => {
+      if (!CONTAINER) return;
       CONTAINER.style.setProperty("--gap", CONFIG.gap);
       CONTAINER.style.setProperty("--blur", CONFIG.blur);
       CONTAINER.style.setProperty("--spread", CONFIG.spread);
@@ -64,10 +67,7 @@ const GlowCard = ({ children, identifier }) => {
 
     RESTYLE();
 
-    // Add event listener for pointer move
-    document.body.addEventListener("pointermove", UPDATE);
-
-    // Cleanup listener on unmount
+    // Cleanup event listener
     return () => {
       document.body.removeEventListener("pointermove", UPDATE);
     };
@@ -75,9 +75,7 @@ const GlowCard = ({ children, identifier }) => {
 
   return (
     <div className={`glow-container-${identifier} glow-container`}>
-      <article
-        className={`glow-card glow-card-${identifier} h-fit cursor-pointer border border-[#2a2e5a] transition-all duration-300 relative bg-[#101123] text-gray-200 rounded-xl hover:border-transparent w-full`}
-      >
+      <article className={`glow-card glow-card-${identifier} h-fit cursor-pointer border border-[#2a2e5a] transition-all duration-300 relative bg-[#101123] text-gray-200 rounded-xl hover:border-transparent w-full`}>
         <div className="glows"></div>
         {children}
       </article>
